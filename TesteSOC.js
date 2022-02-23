@@ -10,3 +10,31 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O
   
   
 2dc88bd7-f6eb-417b-82fa-d192ba041e5e
+
+
+const request = require("request");
+
+module.exports = {
+    async createToken (){
+        var options = {
+            'method': 'POST',
+            'url': 'https://xpi.com.br/oauth2/v1/access-token',
+            'headers': {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            form: {
+              'grant_type': 'client_credentials',
+              'client_id': 'kSDfafgrA3RxbhzUjYNDyPsFiAyuv8QgN9c4iNLmkBtuAIGB',
+              'client_secret': 'dgDsEqfFRXyHDs7XuOMHGA1hT1VeWzGnren82eXo8LrF9yrL12SriDxi3bDhRkNa'
+            }
+          };
+          return new Promise((resolve, reject) => {
+            request(options, function (error, response) {
+                if (error) reject(error);
+                    const resultJson = JSON.parse(response.body)
+                    console.log('OLHA O TOKEN', resultJson.access_token);
+                    resolve(resultJson.access_token);
+              });
+        })
+    }
+};
